@@ -66,22 +66,22 @@ blogController.post('/',
 
 
 
-blogController.put("/updateBlog/:id", verifyToken, async (req, res) => {
-    try {
-        const blog = await Blog.findById(req.params.id)
-        if (blog.userId.toString() !== req.user.id.toString()) {
-            throw new Error("You can update only your own posts")
-        }
+// blogController.put("/updateBlog/:id", verifyToken, async (req, res) => {
+//     try {
+//         const blog = await Blog.findById(req.params.id)
+//         if (blog.userId.toString() !== req.user.id.toString()) {
+//             throw new Error("You can update only your own posts")
+//         }
 
-        const updatedBlog = await Blog
-            .findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
-            .populate('userId', '-password')
+//         const updatedBlog = await Blog
+//             .findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
+//             .populate('userId', '-password')
 
-        return res.status(200).json(updatedBlog)
-    } catch (error) {
-        return res.status(500).json(error.message)
-    }
-})
+//         return res.status(200).json(updatedBlog)
+//     } catch (error) {
+//         return res.status(500).json(error.message)
+//     }
+// })
 
 blogController.put('/likeBlog/:id', verifyToken, async (req, res) => {
     try {
@@ -102,6 +102,33 @@ blogController.put('/likeBlog/:id', verifyToken, async (req, res) => {
         return res.status(500).json(error)
     }
 })
+
+blogController.put("/updateBlog/:id", verifyToken, async (req, res) => {
+    try {
+        const blog = await Blog.findById(req.params.id)
+        if (blog.userId.toString() !== req.user.id.toString()) {
+            throw new Error("You can update only your own posts")
+        }
+
+        const updatedBlog = await Blog
+            .findByIdAndUpdate(req.params.id, req.body , { new: true })
+            .populate('userId', '-password')
+
+        return res.status(200).json(updatedBlog)
+    } catch (error) {
+        return res.status(500).json(error.message)
+    }
+})
+
+// blogController.put('/updateBlog/:id',verifyToken, async (req, res) =>{
+//   const { id } = req.params;
+//   try {
+//     const user = await Blog.findByIdAndUpdate(id, req.body, { new: true });
+//     res.status(200).json(user);
+//   } catch (err) {
+//     res.status(400).json(err);
+//   }
+// })
 
 blogController.delete('/deleteBlog/:id', verifyToken, async(req, res) => {
     try {
