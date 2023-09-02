@@ -1,17 +1,3 @@
-// const Router = require("express").Router();
-// const userCtrl = require("../Controllers/userCtrl");
-// const auth = require("../middleware/auth");
-
-
-// Router.route("/allUsers").get(userCtrl.getAllUsers);
-// Router.route("/user/:id").get(userCtrl.getUserById);
-// Router.route("/searchUsers").get(userCtrl.searchUser);
-// Router.route("/create").post(userCtrl.createANewUser);
-// Router.route("/login").post(userCtrl.login);
-// Router.route("/logout").post(userCtrl.logout);
-// Router.route("/user/:id").put(auth, userCtrl.edit);
-// Router.route("/profile").get(auth, userCtrl.getuserProfile);
-// module.exports = Router;
 const authController = require('express').Router()
 const User = require("../Schema/userSchema")
 const bcrypt = require("bcrypt")
@@ -85,22 +71,7 @@ try{
 }catch (error) {
         return res.status(500).json(error.message)
     }
-    // try {
-    //     const isExisting = await User.findOne({email: req.body.email})
-    //     if(isExisting){
-    //         throw new Error("Already such an account. Try a different email")
-    //     }
-
-    //     const hashedPassword = await bcrypt.hash(req.body.password, 10)
-    //     const newUser = await User.create({...req.body, password: hashedPassword})
-
-    //     const {password, ...others} = newUser._doc
-    //     const token = jwt.sign({id: newUser._id}, process.env.TOKEN, {expiresIn: '5h'})
-
-    //     return res.status(201).json({user: others, token})
-    // } catch (error) {
-    //     return res.status(500).json(error)
-    // }
+  
 })
 authController.get('/getall', async (req, res) => {
     try {
